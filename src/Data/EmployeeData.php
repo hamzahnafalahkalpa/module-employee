@@ -54,6 +54,10 @@ class EmployeeData extends Data implements DataEmployeeData{
     #[MapName('user_reference')]
     public ?UserReferenceData $user_reference;
 
+    #[MapInputName('employee_type_id')]
+    #[MapName('employee_type_id')]
+    public mixed $employee_type_id = null;
+
     #[MapInputName('employee_type')]
     #[MapName('employee_type')]
     public ?EmployeeTypeData $employee_type;

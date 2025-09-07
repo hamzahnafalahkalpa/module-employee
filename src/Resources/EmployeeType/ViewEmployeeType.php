@@ -2,17 +2,16 @@
 
 namespace Hanafalah\ModuleEmployee\Resources\EmployeeType;
 
-use Hanafalah\LaravelSupport\Resources\ApiResource;
+use Hanafalah\ModuleEmployee\Resources\EmployeeStuff\ViewEmployeeStuff;
 
-class ViewEmployeeType extends ApiResource
+class ViewEmployeeType extends ViewEmployeeStuff
 {
     public function toArray(\Illuminate\Http\Request $request): array
     {
         $arr = [
-            'id'   => $this->id,
-            'name' => $this->name,
             'note' => $this->note
         ];
+        $arr = $this->mergeArray(parent::toArray($request),$arr);
         return $arr;
     }
 }

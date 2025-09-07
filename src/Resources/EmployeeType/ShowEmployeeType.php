@@ -2,6 +2,8 @@
 
 namespace Hanafalah\ModuleEmployee\Resources\EmployeeType;
 
+use Hanafalah\ModuleEmployee\Resources\EmployeeStuff\ShowEmployeeStuff;
+
 class ShowEmployeeType extends ViewEmployeeType
 {
 
@@ -9,7 +11,8 @@ class ShowEmployeeType extends ViewEmployeeType
     {
         $arr = [
         ];
-        $arr = array_merge(parent::toArray($request), $arr);
+        $show = $this->resolveNow(new ShowEmployeeStuff($this));
+        $arr = array_merge(parent::toArray($request), $show, $arr);
         return $arr;
     }
 }

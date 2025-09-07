@@ -2,24 +2,21 @@
 
 namespace Hanafalah\ModuleEmployee\Models\EmployeeType;
 
-use Hanafalah\LaravelSupport\Models\BaseModel;
-use Hanafalah\ModuleEmployee\Resources\EmployeeType\{ViewEmployeeType, ShowEmployeeType};
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Hanafalah\ModuleEmployee\Models\EmployeeStuff;
+use Hanafalah\ModuleEmployee\Resources\EmployeeType\{ShowEmployeeType, ViewEmployeeType};
 
-class EmployeeType extends BaseModel{
-    use SoftDeletes, HasUlids;
+class EmployeeType extends EmployeeStuff{
+    protected $table = 'unicodes';
 
-    public $incrementing = false;
-    protected $keyType = 'string';
-    protected $primaryKey = 'id';
-    protected $list = [
-        'id', 'name', 'note'
-    ];
+    public function viewUsingRelation():array {
+        return $this->mergeArray(parent::viewUsingRelation(),[
+        ]);
+    }
 
-    protected $casts = [
-        'name' => 'string'
-    ];
+    public function showUsingRelation():array {
+        return $this->mergeArray(parent::showUsingRelation(),[
+        ]);
+    }
 
     public function getViewResource(){
         return ViewEmployeeType::class;

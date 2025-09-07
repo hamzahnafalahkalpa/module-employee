@@ -5,15 +5,16 @@ namespace Hanafalah\ModuleEmployee\Schemas;
 use Illuminate\Database\Eloquent\{
     Builder, Model
 };
-use Hanafalah\ModuleEmployee\Supports\BaseModuleEmployee;
-use Hanafalah\ModuleEmployee\Contracts\Schemas\Employee as ContractsEmployee;
-use Hanafalah\ModuleEmployee\Contracts\Data\CardIdentityData;
-use Hanafalah\ModuleEmployee\Contracts\Data\EmployeeData;
-use Hanafalah\ModuleEmployee\Contracts\Data\ProfileEmployeeData;
-use Hanafalah\ModuleEmployee\Contracts\Data\ProfilePhotoData;
-use Hanafalah\ModuleEmployee\Contracts\Schemas\ProfileEmployee;
-use Hanafalah\ModuleEmployee\Contracts\Schemas\ProfilePhoto;
-use Hanafalah\ModuleEmployee\Enums\Employee\CardIdentity;
+use Hanafalah\ModuleEmployee\{
+    Supports\BaseModuleEmployee,
+    Contracts\Schemas\Employee as ContractsEmployee,
+    Contracts\Data\CardIdentityData,
+    Contracts\Data\EmployeeData,
+    Contracts\Data\ProfileEmployeeData,
+    Contracts\Data\ProfilePhotoData,
+    Contracts\Schemas\ProfileEmployee,
+    Contracts\Schemas\ProfilePhoto
+};
 use Illuminate\Support\Str;
 
 class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileEmployee, ProfilePhoto
@@ -73,7 +74,8 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
     protected function prepareEmployeePeople(EmployeeData|ProfileEmployeeData $employee_dto): array{
         $people_schema = $this->schemaContract('people');
         $add = [
-            'name' => $employee_dto->name
+            'name' => $employee_dto->name,
+            'employee_type_id' => $employee_dto->employee_type_id
         ];
         if (isset($employee_dto->id) || isset($employee_dto->uuid)){ 
             $employee = $this->getEmployeeByIdentifier([

@@ -2,28 +2,25 @@
 
 namespace Hanafalah\ModuleEmployee\Contracts\Schemas;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Hanafalah\LaravelSupport\Contracts\Supports\DataManagement;
-use Hanafalah\LaravelSupport\Contracts\Data\PaginateData;
-use Hanafalah\ModuleEmployee\Contracts\Data\EmployeeTypeData;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-
-interface EmployeeType extends DataManagement
+/**
+ * @see \Hanafalah\ModuleEmployee\Schemas\EmployeeType
+ * @method mixed export(string $type)
+ * @method self setParamLogic(string $logic, bool $search_value = false, ?array $optionals = [])
+ * @method self conditionals(mixed $conditionals)
+ * @method array updateEmployeeType(?EmployeeTypeData $employee_type_dto = null)
+ * @method Model prepareUpdateEmployeeType(EmployeeTypeData $employee_type_dto)
+ * @method bool deleteEmployeeType()
+ * @method bool prepareDeleteEmployeeType(? array $attributes = null)
+ * @method mixed getEmployeeType()
+ * @method ?Model prepareShowEmployeeType(?Model $model = null, ?array $attributes = null)
+ * @method array showEmployeeType(?Model $model = null)
+ * @method Collection prepareViewEmployeeTypeList()
+ * @method array viewEmployeeTypeList()
+ * @method LengthAwarePaginator prepareViewEmployeeTypePaginate(PaginateData $paginate_dto)
+ * @method array viewEmployeeTypePaginate(?PaginateData $paginate_dto = null)
+ * @method array storeEmployeeType(?EmployeeTypeData $employee_type_dto = null);
+ */
+interface EmployeeType extends EmployeeStuff
 {
-    public function getEmployeeType(): mixed;
-    public function prepareShowEmployeeType(?Model $model = null, ?array $attributes = null): Model;
-    public function showEmployeeType(?Model $model = null): array;
-    public function prepareStoreEmployeeType(EmployeeTypeData $employee_type_dto): Model;
-    public function storeEmployeeType(? EmployeeTypeData $employee_type_dto = null): array;
-    public function prepareViewEmployeeTypePaginate(PaginateData $paginate_dto): LengthAwarePaginator;
-    public function viewEmployeeTypePaginate(? PaginateData $paginate_dto = null): array;
-    public function prepareViewEmployeeTypeList(): Collection;
-    public function viewEmployeeTypeList(): array;
-    public function prepareDeleteEmployeeType(? array $attributes = null): bool;
-    public function deleteEmployeeType(): bool;
-    public function employeeType(mixed $conditionals = null): Builder;
-    
     
 }

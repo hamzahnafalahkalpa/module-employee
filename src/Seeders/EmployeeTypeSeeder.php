@@ -2,9 +2,12 @@
 
 namespace Hanafalah\ModuleEmployee\Seeders;
 
+use Hanafalah\LaravelSupport\Concerns\Support\HasRequestData;
 use Illuminate\Database\Seeder;
 
 class EmployeeTypeSeeder extends Seeder{
+    use HasRequestData;
+
     protected $__employee_types = [
         [
             'name' => 'PKWT',
@@ -49,12 +52,14 @@ class EmployeeTypeSeeder extends Seeder{
      */
     public function run(): void
     {
-        $model = app(config('database.models.EmployeeType'));
         foreach ($this->__employee_types as $employee_type) {
-            $model->updateOrCreate([
-                'name' => $employee_type['name'],
-                'note' => $employee_type['note'] ?? null
-            ]);
+            app(config('app.contracts.EmployeeType'))->prepareStoreEmployeeType(
+                $this->requestDTO(config('app.contracts.EmployeeTypeData'),[
+                    'name' => $employee_type['name'],
+                    'label' => $employee_type['name'],
+                    'note' => $employee_type['note'] ?? null
+                ])
+            );
         }
     }
 }
