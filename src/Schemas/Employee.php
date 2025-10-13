@@ -138,11 +138,6 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
                 $employee_service->reference_type = $employee->getMorphClass();
                 $employee_service->reference_id   = $employee->getKey();
                 $employee_service = $this->schemaContract('employee_service')->prepareStoreEmployeeService($employee_service);
-                // [
-                //     'employee_id'       => $employee->getKey(),
-                //     'flag'              => 'CONSULTATION_FEE', 
-                //     'tariff_components' => $attributes['employee_services']['tariff_components'] ?? null
-                // ];
                 $keep[] = $employee_service->getKey();
             }
             $employee->employeeServices()->whereNotIn('id',$keep)->delete();
