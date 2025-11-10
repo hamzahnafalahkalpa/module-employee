@@ -27,4 +27,8 @@ class CardIdentityData extends Data implements DataCardIdentityData{
     #[MapInputName('bpjs_ketenagakerjaan')]
     #[MapName('bpjs_ketenagakerjaan')]
     public ?string $bpjs_ketenagakerjaan = null;
+
+    #[MapInputName('props')]
+    #[MapName('props')]
+    public ?array $props = null;
 }
