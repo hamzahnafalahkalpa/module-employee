@@ -115,6 +115,10 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
         return [$employee,$people];
     }
 
+    public function prepareStore(EmployeeData $employee_dto): Model{
+        return $this->prepareStoreEmployee($employee_dto);
+    }
+
     public function prepareStoreEmployee(EmployeeData $employee_dto): Model{
         list($employee,$people)  = $this->prepareEmployeePeople($employee_dto);
         $employee->hired_at      = $employee_dto->hired_at ?? null;        
@@ -126,11 +130,12 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
         //MANAGE EMPLOYEE ACCOUNT/USER ACCESS
         if (isset($employee_dto->user_reference)){
             $user_reference_dto                 = $employee_dto->user_reference;
-            $user_reference_dto->id             = $employee->userReference->getKey();
-            $user_reference_dto->uuid           = $employee->uuid;
+            // $user_reference_dto->id             = $employee->userReference->getKey();
+            // $user_reference_dto->uuid           = $employee->uuid;
             $user_reference_dto->reference_id   = $employee->getKey();
             $user_reference_dto->reference_type = $employee->getMorphClass();
             $user_reference = $this->schemaContract('user_reference')->prepareStoreUserReference($user_reference_dto);
+            $employee->setRelation('userReference',$user_reference);
         }
         $keep = [];
         if (isset($employee_dto->employee_services) && count($employee_dto->employee_services) > 0){
