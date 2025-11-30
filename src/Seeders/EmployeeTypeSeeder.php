@@ -52,6 +52,7 @@ class EmployeeTypeSeeder extends Seeder{
      */
     public function run(): void
     {
+        echo "[DEBUG] Booting ".class_basename($this)."\n";
         foreach ($this->__employee_types as $employee_type) {
             app(config('app.contracts.EmployeeType'))->prepareStoreEmployeeType(
                 $this->requestDTO(config('app.contracts.EmployeeTypeData'),[
