@@ -69,7 +69,7 @@ class Employee extends BaseModel
     public function showUsingRelation(): array{
         return [
             'people'        => fn($q) => $q->with(['addresses', 'cardIdentities']),
-            'userReference' => fn($q) => $q->with(['roles', 'user']),
+            'userReference' => fn($q) => $q->with(['roles', 'role', 'user']),
             'room', 'rooms', 'employeeServices.servicePrices'
         ];
     }
