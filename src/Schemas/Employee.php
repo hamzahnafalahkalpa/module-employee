@@ -213,7 +213,7 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
         foreach ($types as $type) {
             $lower_type = Str::lower($type);
             $value = $card_identity_dto->{$lower_type} ?? null;
-            if (isset($value)) $employee->setCardIdentity($type, $card_identity_dto->{$lower_type});
+            if (isset($value)) $employee->setCardIdentity($lower_type, $card_identity_dto->{$lower_type});
             $card_identity[$lower_type] = $value;
         }
         $employee->setAttribute('prop_card_identity',$card_identity);
