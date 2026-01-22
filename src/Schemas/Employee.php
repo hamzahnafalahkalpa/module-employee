@@ -131,7 +131,11 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
                 }]);
             }
             $user_reference_dto                 = $employee_dto->user_reference;
-            $user_reference_dto->id             ??= $employee->userReference->getKey();
+            $user_reference_model = $employee->userReference;
+            if (isset($user_reference_model)){
+                $user_reference_dto->id             ??= $employee->userReference->getKey();
+                $user_reference_dto->user_reference_model = $user_reference_model;
+            }
             $user_reference_dto->reference_id   = $employee->getKey();
             $user_reference_dto->reference_type = $employee->getMorphClass();
             $user_reference = $this->schemaContract('user_reference')->prepareStoreUserReference($user_reference_dto);
