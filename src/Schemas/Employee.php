@@ -110,6 +110,7 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
         }
         $this->prepareStoreProfilePhoto($employee_dto->profile_dto ?? $this->requestDTO(ProfilePhotoData::class,[
             'id'      => $employee->getKey(),
+            'employee_model' => $employee,
             'profile' => $employee_dto->profile
         ]));
         return [$employee,$people];
@@ -199,8 +200,12 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
     }
 
     public function prepareStoreProfilePhoto(ProfilePhotoData $profile_photo_dto): Model{
-        if (!isset($profile_photo_dto->id) && !isset($profile_photo_dto->uuid)) throw new \Exception('id or uuid not found');
-        $employee = $this->getEmployeeByIdentifier(['id' => $profile_photo_dto->id, 'uuid' => $profile_photo_dto->uuid])->firstOrFail();
+        if (isset($profile_photo_dto->employee_model)){
+            $employee = $profile_photo_dto->employee_model;
+        }else{
+            if (!isset($profile_photo_dto->id) && !isset($profile_photo_dto->uuid)) throw new \Exception('id or uuid not found');
+            $employee = $this->getEmployeeByIdentifier(['id' => $profile_photo_dto->id, 'uuid' => $profile_photo_dto->uuid])->firstOrFail();
+        }
         $employee->profile = $employee->setProfilePhoto($profile_photo_dto->profile);
         $employee->save();
         return $this->employee_model = $employee;

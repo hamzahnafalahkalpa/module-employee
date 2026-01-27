@@ -37,6 +37,10 @@ return [
             'schema' => 'AnnualLeaveSummary'
         ]
     ],
+    'filesystem' => [
+        'asset_url'     => '/assets/',
+        'profile_photo' => 'profiles',
+    ],
     'commands' => [
         ModuleEmployeeCommands\InstallMakeCommand::class
     ]

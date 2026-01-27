@@ -8,6 +8,13 @@ class ViewEmployee extends ApiResource
 {
     public function toArray(\Illuminate\Http\Request $request): array
     {
+        $profile = null;
+        if (isset($this->profile)){
+            $profile_path = employee_profile_photo($this->profile);
+            $disk = config('filesystems.default', 'public');
+            if ($disk == 'public') $profile_path = $this->encryptName($profile_path);
+            $profile = asset_url($profile_path);
+        }
         $arr = [
             'id'               => $this->id,
             'uuid'             => $this->uuid,
@@ -16,7 +23,7 @@ class ViewEmployee extends ApiResource
             'card_identity'    => $this->prop_card_identity,
             'people'           => $this->prop_people,
             'status'           => $this->status,
-            'profile'          => $this->profile ?? null,
+            'profile'          => $profile ?? null,
             'sign'             => $this->sign ?? null,    
             'profession'       => $this->prop_profession,
             'occupation'       => $this->prop_occupation,

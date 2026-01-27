@@ -17,6 +17,10 @@ class ProfilePhotoData extends Data implements DataProfilePhotoData{
     #[MapName('uuid')]
     public ?string $uuid = null;
 
+    #[MapInputName('employee_model')]
+    #[MapName('employee_model')]
+    public ?object $employee_model = null;
+
     #[MapInputName('profile')]
     #[MapName('profile')]
     public string|UploadedFile|null $profile = null;
