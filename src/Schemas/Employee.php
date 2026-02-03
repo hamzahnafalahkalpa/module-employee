@@ -153,7 +153,12 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
         }else{
             $employee->employeeServices()->delete();
         }
+        $this->afterEmployeeCreated($employee, $employee_dto);
         return $this->employee_model = $employee;
+    }
+
+    protected function afterEmployeeCreated(Model &$employee, EmployeeData &$employee_dto): self{
+        return $this;
     }
 
     public function prepareStoreProfile(ProfileEmployeeData $profile_employee_dto): Model{
