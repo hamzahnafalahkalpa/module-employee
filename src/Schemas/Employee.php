@@ -37,9 +37,10 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
         $model ??= $this->getEmployee();
         if (!isset($model)) {
             $id   = $attributes['id'] ?? null;
-            $uuid = $attributes['uuid'] ?? null;
-            $is_valid = isset($id) || isset($uuid);
-            if (!$is_valid) throw new \Exception('id or uuid not found');
+            // $uuid = $attributes['uuid'] ?? null;
+            // $is_valid = isset($id) || isset($uuid);
+            $is_valid = isset($id);
+            if (!$is_valid) throw new \Exception('id not found');
             $model = $this->getEmployeeByIdentifier($attributes)->firstOrFail();            
         } else {
             $model->load($this->showUsingRelation());
@@ -49,20 +50,21 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
 
     protected function getEmployeeByIdentifier(array $attributes){
         $id = $attributes['id'] ?? null;
-        $uuid = $attributes['uuid'] ?? null;
+        // $uuid = $attributes['uuid'] ?? null;
         return $this->employee()->with($this->showUsingRelation())
-                ->when(isset($id), fn($q) => $q->where('id', $id))
-                ->when(isset($uuid), function ($query) use ($uuid) {
-                    return $query->whereHas('userReference', fn($q) => $q->uuid($uuid));
-                });
+                ->when(isset($id), fn($q) => $q->where('id', $id));
+                // ->when(isset($uuid), function ($query) use ($uuid) {
+                //     return $query->whereHas('userReference', fn($q) => $q->uuid($uuid));
+                // });
     }
 
     public function prepareShowProfile(?Model $model = null, ?array $attributes = null): Model{
         $attributes ??= \request()->all();
-        if (!isset($attributes['uuid'])) throw new \Exception('uuid not found');
-        return $this->employee_model = $this->employee()->with($this->showUsingRelation())->whereHas('userReference',function($query) use ($attributes){
-            $query->uuid($attributes['uuid']);
-        })->firstOrFail();
+        // if (!isset($attributes['uuid'])) throw new \Exception('uuid not found');
+        // return $this->employee_model = $this->employee()->with($this->showUsingRelation())->whereHas('userReference',function($query) use ($attributes){
+            // $query->uuid($attributes['uuid']);
+        // })->firstOrFail();
+        return $this->employee_model = $this->employee()->with($this->showUsingRelation())->findOrFail($attributes['id']);
     }
 
     public function showProfile(?Model $model = null): array{
