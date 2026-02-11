@@ -22,6 +22,7 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
     protected string $__entity = 'Employee';
     public $employee_model;
     protected mixed $__order_by_created_at = false; //asc, desc, false
+    public bool $is_recently_created = false;
 
     protected array $__cache = [
         'index' => [
