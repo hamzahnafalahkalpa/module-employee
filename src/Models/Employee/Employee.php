@@ -28,7 +28,7 @@ class Employee extends BaseModel
     public $incrementing  = false;
     protected $primaryKey = 'id';
     protected $keyType    = 'string';
-    protected $list       = ['id', 'uuid', 'name', 'people_id', 'status', 'profile', 'props'];
+    protected $list       = ['id', 'uuid', 'name', 'people_id', 'user_id', 'status', 'profile', 'props'];
     protected $show       = ['sallary', 'employee_type_id', 'shift_id', 'profession_id', 'occupation_id'];
 
     protected $casts = [
@@ -91,6 +91,7 @@ class Employee extends BaseModel
 
     public function employeeServices(){return $this->morphManyModel('EmployeeService', 'reference');}
     public function employeeType(){return $this->belongsToModel('EmployeeType');}
+    public function user(){return $this->belongsToModel('User');}
     public function attendence(){return $this->hasOneModel('Attendence');}
     public function attendences(){return $this->hasManyModel('Attendence');}
 }

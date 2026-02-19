@@ -78,8 +78,11 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
         $people_schema = $this->schemaContract('people');
         $add = [
             'name' => $employee_dto->name,
-            'employee_type_id' => $employee_dto->employee_type_id
+            'employee_type_id' => $employee_dto->employee_type_id,
         ];
+        if (isset($employee_dto->user_id)){
+            $add['user_id'] = $employee_dto->user_id;
+        }
         if (isset($employee_dto->id) || isset($employee_dto->uuid)){ 
             $employee = $this->getEmployeeByIdentifier([
                 'id'   => $employee_dto->id ?? null,
@@ -124,9 +127,7 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
         $employee->hired_at      = $employee_dto->hired_at ?? null;        
         $employee->profession_id = $employee_dto->profession_id ?? null;
         $employee->occupation_id = $employee_dto->occupation_id ?? null;
-        $employee->shift_id      = $employee_dto->shift_id ?? null;
-        $this->fillingProps($employee,$employee_dto->props);
-        $employee->save();
+        $employee->shift_id      = $employee_dto->shift_id ?? null;        
         //MANAGE EMPLOYEE ACCOUNT/USER ACCESS
         if (isset($employee_dto->user_reference)){
             if (!isset($employee_dto->id)){
@@ -143,7 +144,10 @@ class Employee extends BaseModuleEmployee implements ContractsEmployee, ProfileE
             $user_reference_dto->reference_id   = $employee->getKey();
             $user_reference_dto->reference_type = $employee->getMorphClass();
             $user_reference = $this->schemaContract('user_reference')->prepareStoreUserReference($user_reference_dto);
+            $employee_dto->user_id = $employee->user_id = $user_reference->user_id;
         }
+        $this->fillingProps($employee,$employee_dto->props);
+        $employee->save();
         $keep = [];
         if (isset($employee_dto->employee_services) && count($employee_dto->employee_services) > 0){
             foreach ($employee_dto->employee_services as $employee_service) {

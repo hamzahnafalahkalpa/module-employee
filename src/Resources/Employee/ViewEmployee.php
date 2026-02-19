@@ -20,6 +20,7 @@ class ViewEmployee extends ApiResource
             'uuid'             => $this->uuid,
             'name'             => $this->name,
             'hired_at'         => $this->hired_at,
+            'user_id'          => $this->user_id,
             'card_identity'    => $this->prop_card_identity,
             'people'           => $this->prop_people,
             'status'           => $this->status,

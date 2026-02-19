@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -30,6 +31,7 @@ return new class extends Migration
         $table_name = $this->__table->getTable();
         if (!$this->isTableExists()) {
             Schema::create($table_name, function (Blueprint $table) {
+                $user          = app(config('database.models.User', User::class));
                 $people        = app(config('database.models.People', People::class));
                 $profession    = app(config('database.models.Profession', Profession::class));
                 $occupation    = app(config('database.models.Occupation', Occupation::class));
@@ -39,6 +41,10 @@ return new class extends Migration
                 $table->ulid('id')->primary();
                 $table->string('uuid', 36)->nullable();
                 $table->string('name',100)->nullable(false);
+
+                $table->foreignIdFor($user::class)
+                    ->nullable()->index()
+                    ->cascadeOnUpdate()->restrictOnDelete();
 
                 $table->foreignIdFor($people::class)
                     ->nullable(false)->index()
